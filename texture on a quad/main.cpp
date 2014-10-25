@@ -1,3 +1,4 @@
+// The texture color is wrong
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <FreeImage.h>
