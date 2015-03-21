@@ -1,0 +1,2 @@
+
+g++ `sdl2-config --cflags --libs` modern.cpp -lGL -lGLEW
