@@ -10,9 +10,16 @@
 
 using namespace std;
 
+// initialize OpenGL
 void initGL();
+
+// load a text file and return it as a string
 string loadTextFile(string fileName);
+
+// load a texture to video memory
 void loadTexture(string fileName, int* width, int* height);
+
+// handle event
 void handleEvent(SDL_Event event);
 
 bool gameover;
@@ -49,6 +56,7 @@ int main()
 	initGL();
 	
 	// vertices
+	// format: x, y, texture_x, texture_y
 	GLfloat vertices[] =
 	{
 		-0.5, 0.5, 0, 0,
@@ -68,7 +76,7 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	
 	
-	// elements
+	// elements (one triangle per line)
 	GLuint elements[] =
 	{
 		0, 1, 3,
@@ -138,7 +146,7 @@ int main()
 	glAttachShader(shaderProgram, vertShader);
 	glAttachShader(shaderProgram, fragShader);
 	
-	// Since fragment shader is allowe to write to multiple buffers,
+	// Since fragment shader is allowed to write to multiple buffers,
 	// you need to specify which output is written to which buffer.
 	// You must do this before linking.
 	// However, since 0 is the default and there is only one output
@@ -212,7 +220,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	
 	int width1, height1;
-	loadTexture("img.png", &width1, &height1);
+	loadTexture("b.png", &width1, &height1);
 	
 	glUniform1i(glGetUniformLocation(shaderProgram, "tex1"), 0);
 	
@@ -269,20 +277,6 @@ void initGL()
 {
 	
 	glClearColor(0.5, 0, 0, 0);
-	/*
-	glClearDepth(1.0);
-	
-	glViewport(0, 0, 640, 480);
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	glOrtho(0, 640, 480, 0, 1, -1);
-	
-	glMatrixMode(GL_MODELVIEW);
-	
-	glLoadIdentity();
-	*/
 	
 }
 
