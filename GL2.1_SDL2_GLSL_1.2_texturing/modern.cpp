@@ -55,6 +55,11 @@ int main()
 	
 	initGL();
 	
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_INDEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	
 	// vertices
 	// format: x, y, texture_x, texture_y
 	GLfloat vertices[] =
@@ -73,7 +78,7 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	
 	// upload the vertex data to the video card
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices)*sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 	
 	
 	// elements (one triangle per line)
@@ -91,8 +96,7 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	
 	// upload the element data to the video card
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-	
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements)*sizeof(GLuint), elements, GL_STATIC_DRAW);
 	
 	
 	string vertSource = loadTextFile("vert_shad.glsl");
@@ -170,6 +174,8 @@ int main()
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	
 	// making the link between vertex data and attributes
 	// OpenGL needs to know how the attributes are formatted
@@ -252,9 +258,9 @@ int main()
 		glDrawElements
 		(
 			GL_TRIANGLES,		// primitive to draw
-			6,					// how many vertices to skip
-			GL_UNSIGNED_INT,	// how many vertices to draw
-			elements
+			6,					// how many vertices to draw
+			GL_UNSIGNED_INT,	// type of the indices
+			0
 		);
 		
 		SDL_GL_SwapWindow(window);
