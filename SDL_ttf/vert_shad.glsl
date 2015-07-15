@@ -22,10 +22,10 @@ void main()
 	// for normalization purposes( read: 
 	// "http://stackoverflow.com/questions/2422750/
 	// in-opengl-vertex-shaders-what-is-w-and-why-do-i-divide-by-it" )
-    gl_Position = vec4(inPosition, 0.0, 1.0);
-    
-    // compute the texture coordina corresponding to this
-    // vertex
-    gl_TexCoord[0] = vec4(inTexCoords, 0, 0);
+	gl_Position = vec4(inPosition, 0.0, 1.0);
+	
+	// compute the texture coordina corresponding to this
+	// vertex
+	gl_TexCoord[0] = vec4(inTexCoords, 0, 0);
     
 }
