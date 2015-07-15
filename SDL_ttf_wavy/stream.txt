@@ -1,0 +1,13 @@
+stringstream ss;
+	for(int y=0; y<surface->h; y++)
+	{
+		for(int x=0; x<surface->w; x++)
+		{
+			ss << hex << setw(8) << ((int*)surface->pixels)[x + y*surface->w] << " ";
+		}
+		ss << endl;
+	}
+	
+	string s = ss.str();
+	fstream fs("data2.txt", fstream::out);
+	fs << s << endl;
