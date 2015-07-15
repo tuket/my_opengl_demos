@@ -31,6 +31,7 @@ int main()
 	
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2 );
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
+	// don't allow deprecated GL functions
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 	
 	// make the window
@@ -62,7 +63,7 @@ int main()
 	
 	// vertices
 	// format: x, y, texture_x, texture_y
-	GLfloat vertices[] =
+	const GLfloat vertices[] =
 	{
 		-0.5, 0.5, 0, 0,
 		0.5, 0.5, 1, 0,

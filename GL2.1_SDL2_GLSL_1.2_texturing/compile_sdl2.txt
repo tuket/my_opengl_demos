@@ -1,2 +1,1 @@
-
-g++ `sdl2-config --cflags --libs` modern.cpp -lGL -lGLEW -lSOIL
+g++ `sdl2-config --cflags` modern.cpp -lGL -lGLEW -lSOIL `sdl2-config --libs`
