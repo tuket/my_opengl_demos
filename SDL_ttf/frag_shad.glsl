@@ -24,6 +24,6 @@ void main()
 	
 	// blend both colors
 	float tweak = 0.5f;
-    gl_FragColor = mix(color1, color2, tweak);
+	gl_FragColor = mix(color1, color2, tweak);
     
 }
