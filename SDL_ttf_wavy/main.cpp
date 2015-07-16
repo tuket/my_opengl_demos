@@ -274,7 +274,7 @@ int main()
 		
 		SDL_GL_SwapWindow(window);
 		
-		//if(time>1000) time = 0;
+		if(time>100*PI) time = 0;
 		time += PI/100.0f;
 		glUniform1f(loc, time);
 		
