@@ -24,8 +24,8 @@ void main()
 	
 	// take another color of the texture pixel
 	vec2 oriTex = gl_TexCoord[0].st;
-	float nt = mod(time, 2*PI) / (2*PI);
-	vec4 color2 = texture2D( tex2, vec2(oriTex.s+0.01*sin((1+nt)*oriTex.t*PI*4), oriTex.t) );
+	float nt = mod(time, 2*PI);
+	vec4 color2 = texture2D( tex2, vec2(oriTex.s+0.01*sin(oriTex.t*PI*4+nt), oriTex.t) );
 	
 	// blend both colors
 	float tweak = 1.0f;
