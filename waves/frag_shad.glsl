@@ -13,10 +13,11 @@
 uniform float time;
 
 const float PI = 3.14159265359;
+varying vec4 gl_Color;
 
 void main()
 {
 	
-	gl_FragColor = vec4( 0.2, 0.4, 0.8, 0.0 );
+	gl_FragColor = gl_Color;
     
 }
