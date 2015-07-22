@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include "resolution_plane.hpp"
+#include "glm\glm.hpp"
 
 using namespace std;
 
@@ -24,7 +25,6 @@ int main()
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 	
-	/*
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
@@ -33,7 +33,6 @@ int main()
 	SDL_GL_SetAttribute( SDL_GL_BUFFER_SIZE, 32 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
-	*/
 	
 	
 	SDL_Window* window =
@@ -67,8 +66,8 @@ int main()
 	ResolutionPlane::initShaders();
 	ResolutionPlane plane
 	(
-		100, 100,
-		5, 5
+		50, 50,
+		500, 500
 	);
 	
 	float time = 0;
@@ -99,7 +98,7 @@ int main()
 		
 		// draw
 		
-		glClear( GL_COLOR_BUFFER_BIT );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// Drawing!
 		plane.draw(time);
@@ -121,4 +120,6 @@ void initGL()
 	glClearColor(0.5, 0.5, 0.5, 0.0);
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 }
