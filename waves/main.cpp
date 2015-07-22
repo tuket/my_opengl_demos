@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include "resolution_plane.hpp"
-#include "glm\glm.hpp"
+#include <glm/glm.hpp>
 
 using namespace std;
 
@@ -67,7 +67,7 @@ int main()
 	ResolutionPlane plane
 	(
 		50, 50,
-		500, 500
+		50, 50
 	);
 	
 	float time = 0;

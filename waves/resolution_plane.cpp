@@ -133,12 +133,13 @@ ResolutionPlane::ResolutionPlane
 		
 		// uniforms
 		
-		float fov = (45.0f / 180.0f)*PI;
-		glm::mat4 proj = glm::perspective(fov, 4.0f/3.0f, 0.1f, 100.0f);
+		//float fov = (45.0f / 180.0f)*PI;
+		float fov = 45;
+		glm::mat4 proj = glm::perspective(fov, 4.0f/3.0f, 0.1f, 10000.0f);
 		glm::mat4 view =
 			glm::lookAt
 			(
-			glm::vec3(0, 40, 50),
+			glm::vec3(0, 20, 75),
 			glm::vec3(0, 0, 0),
 			glm::vec3(0, 1, 0)
 			);
@@ -212,7 +213,12 @@ void ResolutionPlane::initShaders()
 		glGetShaderiv(vertShader, GL_COMPILE_STATUS, &status);
 		if( status != GL_TRUE )
 		{
-			cerr << "Error: compiling vertex shader" << endl;
+			const GLsizei maxSize = 1024;
+			char errorLog[maxSize];
+			GLsizei errorLogSize;
+			glGetShaderInfoLog(vertShader, maxSize, &errorLogSize, errorLog);
+			cerr << "Error: compiling vertex shader:" << endl;
+			cerr << errorLog << endl;
 			exit(1);
 		}
 		

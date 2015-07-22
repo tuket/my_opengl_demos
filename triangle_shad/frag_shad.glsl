@@ -9,14 +9,13 @@
  * The output goes to -> gl_FragColor
  * 
  **/
-
-uniform float time;
-
-const float PI = 3.14159265;
+ 
+ uniform float time;
 
 void main()
 {
 	
-	gl_FragColor = gl_Color;
+
+	gl_FragColor = vec4(1.0, 1.0, time, 1.0);
     
 }
