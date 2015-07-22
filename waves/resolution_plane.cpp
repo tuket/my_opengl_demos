@@ -3,6 +3,10 @@
 #include "util.hpp"
 #include <cstdlib>
 #include <cassert>
+#include <cmath>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+const float PI = 3.14159265359f;
 
 using namespace std;
 
@@ -45,35 +49,36 @@ ResolutionPlane::ResolutionPlane
 		{
 			assert(3*(x + y*(rw+1)) + 2 < verticesCount*3);
 			vertices[3*(x + y*(rw+1)) + 0] = x * iw - w/2;
-			vertices[3*(x + y*(rw+1)) + 1] = y * ih - h/2;
-			vertices[3*(x + y*(rw+1)) + 2] = 0;
+			vertices[3*(x + y*(rw+1)) + 1] = 0;
+			vertices[3*(x + y*(rw+1)) + 2] = y * ih - h/2;
 		}
 		
-		GLint p0, p1, p2;
-		p0 = 0;
-		p1 = 5;
-		p2 = 1;
-		for(unsigned i=0; i<trianglesCount; i+=2)
+		int ind = 0;
+		for (int row = 0; row < rh; row++)
 		{
-			assert(3*i+2 < indicesCount);
-			indices[3*i+0] = p0;
-			indices[3*i+1] = p1;
-			indices[3*i+2] = p2;
-			p0++; p1++; p2++;
+			int p0 = row*(rw + 1);
+			int p1 = (row + 1)*(rw + 1);
+			int p2 = p1 + 1;
+			for (int i = 0; i < rw; i++)
+			{
+				indices[ind++] = p0;
+				indices[ind++] = p1;
+				indices[ind++] = p2;
+				p0++; p1++; p2++;
+			}
+
+			p0 = row*(rw + 1);
+			p1 = (row + 1)*(rw + 1) + 1;
+			p2 = p0 + 1;
+			for (int i = 0; i < rw; i++)
+			{
+				indices[ind++] = p0;
+				indices[ind++] = p1;
+				indices[ind++] = p2;
+				p0++; p1++; p2++;
+			}
 		}
-		
-		p0 = 1;
-		p1 = 5;
-		p2 = 6;
-		for(unsigned i=1; i<trianglesCount; i+=2)
-		{
-			assert(3*i+2 < indicesCount);
-			indices[3*i+0] = p0;
-			indices[3*i+1] = p1;
-			indices[3*i+2] = p2;
-			p0++; p1++; p2++;
-		}
-		
+
 		initShaders();
 		glUseProgram(shaderProgram);
 		
@@ -127,21 +132,26 @@ ResolutionPlane::ResolutionPlane
 		glEnableVertexAttribArray(posAttrib);
 		
 		// uniforms
-		GLfloat mat[] =
-		{
-			0.001f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.001f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.001f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.1f
-		};
 		
+		float fov = (45.0f / 180.0f)*PI;
+		glm::mat4 proj = glm::perspective(fov, 4.0f/3.0f, 0.1f, 100.0f);
+		glm::mat4 view =
+			glm::lookAt
+			(
+			glm::vec3(0, 40, 50),
+			glm::vec3(0, 0, 0),
+			glm::vec3(0, 1, 0)
+			);
+
+		glm::mat4 M = proj*view;
+
 		GLint matLoc = glGetUniformLocation( shaderProgram, "mat" );
 		glUniformMatrix4fv
 		(
 			matLoc,
 			1,
 			GL_FALSE,
-			mat
+			&M[0][0]
 		);
 		
 	}
