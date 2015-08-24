@@ -166,7 +166,6 @@ void ResolutionPlane::draw(float time)
 	glUseProgram( shaderProgram );
 	GLint loc = glGetUniformLocation( shaderProgram, "time" );
 	glUniform1f( loc, time );
-	cout << time << endl;
 	
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

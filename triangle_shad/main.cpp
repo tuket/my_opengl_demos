@@ -74,7 +74,7 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	
 	// upload the vertex data to the video card
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices)*sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	
 	
 	// elements (one triangle per line)
@@ -92,7 +92,7 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	
 	// upload the element data to the video card
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements)*sizeof(GLuint), elements, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 	
 	string vertSource = loadTextFile("vert_shad.glsl");
 	const char* vSource = vertSource.c_str();
@@ -158,16 +158,6 @@ int main()
 	
 	// use the program
 	glUseProgram(shaderProgram);
-	
-	
-	// VAO
-	// ---
-	// VAOs are used to save "settings"
-	// VAOs store all the links between the attributes and
-	// your VBO with raw vertex data.
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
