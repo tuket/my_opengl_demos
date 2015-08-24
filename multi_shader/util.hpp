@@ -12,4 +12,6 @@ inline unsigned nextPowerOfTwo(unsigned x)
 	return res;
 }
 
+#define log_stream cout
+
 #endif

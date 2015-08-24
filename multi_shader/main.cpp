@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iomanip>
 #include <glm/glm.hpp>
+#include "shaders.hpp"
+#include "shader_attrib_locations.hpp"
 
 using namespace std;
 
@@ -56,6 +58,53 @@ int main()
 	
 	initGL();
 	
+	Shaders* shaders = Shaders::getSingleton();
+	shaders->init();
+	
+	const GLuint inds[] =
+	{
+		0, 1, 2
+	};
+	
+	const GLfloat verts[] =
+	{
+		0, 1, 0,
+		1, -1, 0,
+		-1, -1, 0
+	};
+	
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData
+	(
+		GL_ARRAY_BUFFER,
+		sizeof(verts),
+		verts,
+		GL_STATIC_DRAW
+	);
+	glEnableVertexAttribArray((GLuint)EShaderAttribLocation::position);
+	glVertexAttribPointer
+	(
+		(GLuint)EShaderAttribLocation::position,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3*sizeof(float),
+		0
+	);
+	
+	GLuint EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData
+	(
+		GL_ELEMENT_ARRAY_BUFFER,
+		sizeof(inds),
+		inds,
+		GL_STATIC_DRAW
+	);
+	
 	float time = 0;
 	SDL_Event event;
 	
@@ -86,8 +135,16 @@ int main()
 		
 		glClear( GL_COLOR_BUFFER_BIT );
 		
-		// Drawing!
-		
+		glUseProgram( shaders->getShader("white_shader") );
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glDrawElements
+		(
+			GL_TRIANGLES,
+			sizeof(inds)/sizeof(GLuint),
+			GL_UNSIGNED_INT,
+			0
+		);
 		
 		SDL_GL_SwapWindow(window);
 		

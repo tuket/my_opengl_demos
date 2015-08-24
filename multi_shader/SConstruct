@@ -1,7 +1,14 @@
 list_files = \
 [
 	"main.cpp",
-	"util.cpp"
+	"util.cpp",
+	"shaders.cpp",
+	"shaders/compile_shader.cpp"
+]
+
+list_shaders = \
+[
+	"white_shader"
 ]
 
 libs = \
@@ -17,7 +24,13 @@ libpath = \
 	"/usr/local/lib"
 ]
 
+for shad in list_shaders:
+	path = "shaders/" + shad + "/" + shad + ".cpp"
+	list_files.append(path)
+
 env = Environment();
+env.Append(CCFLAGS = '-std=c++11')
+
 debug = ARGUMENTS.get("debug", 0);
 if debug == 'true':
 	env.Append(CCFLAGS = '-g')

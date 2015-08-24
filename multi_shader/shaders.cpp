@@ -2,80 +2,67 @@
 #include "util.hpp"
 #include <string>
 #include <iostream>
+#include <cassert>
+
+#include "shaders/white_shader/white_shader.hpp"
+
+//#define STOP_ON_COMPILE_ERROR
 
 using namespace std;
 
-static vector<GLuint> shaders;
+Shaders* Shaders::getSingleton()
+{
+	static Shaders* instance = new Shaders();
+	return instance;
+}
 
 /**
  * return true if success
  **/
-bool initShaders()
+bool Shaders::init()
 {
 	
 	GLuint shad;
-	GLuint vertShad;
-	GLuint fragShad;
-	string vertSrc;
-	string fragSrc;
-	
-	const char* fileName;
-	GLint status;
-	static char bufferMsg[1024];
-	
+	string name;
 	bool res = true;
+	bool b;
 	
-	/**
-	 * WHITE SHADER
-	 **/
-	shad = glCreateProgram();
+	for
+	(
+		int i=0;
+		i<sizeof(shaderCreators) / sizeof(bool (*)(GLuint&));
+		i++
+	)
+	{
+		b = shaderCreators[i](name, shad);
 		
-		fileName = "vert_shad_1.glsl";
-		vertShad = glCreateShader(GL_VERTEX_SHADER);
-		vertSrc = loadTextFile(fileName);
-		glShaderSource(vertShad, 1, vertSrc.c_str(), 0);
-		glCompileShader(vertShad);
-		glGetShaderiv(vertShad, GL_COMPILE_STATUS, &status);
-		if(status != GL_TRUE)
+		#ifndef NDEBUG
+		if( shaders.find(name) != shaders.end() )
 		{
-			cerr << "Error compiling vertex shader: " << fileName << ": " << endl;
-			glGetShaderInfoLog(vertShad, 1024, 0, bufferMsg);
-			cerr << bufferMsg << endl;
-			res = false;
+			cerr << "Warning: The is already a shader with name: "
+			<< name << endl;
 		}
+		#endif
 		
-		fragShad = glCreateShader(GL_FRAGMENT_SHADER);		
-		fragSrc = loadTextFile("frag_shad_1.glsl");
-		glShaderSource(fragShad, 1, fragSrc.c_str(), 0);
-		glCompileShader(fragShad);
-		if(status != GL_TRUE)
-		{
-			cerr << "Error compiling fragment shader: " << fileName << ": " << endl;
-			glGetShaderInfoLog(fragsShad, 1024, 0, bufferMsg);
-			cerr << bufferMsg << endl;
-			res = false;
-		}
-		
-		glAttachShader(shad, vertShad);
-		glAttachShader(shad, fragShad);
-		glLinkProgram();
-		glGetProgramiv(shad, GL_LINK_STATUS, &status);
-		if(status != GL_TRUE)
-		{
-			cerr << "Error linking program: " << "White Shader" << ": " << endl;
-			glGetShaderInfoLog(fragsShad, 1024, 0, bufferMsg);
-			cerr << bufferMsg << endl;
-			res = false;
-		}
-		
-	shaders.push_back(shad);
-	
-	
+		shaders[name] = shad;
+		#ifdef STOP_ON_COMPILE_ERROR
+		if(!b) return false;
+		#endif
+		res &= b;
+	}
 	
 	return res;
+	
 }
 
-const vector<GLuint>& getShaders()
+const GLuint Shaders::getShader(const string& name)const
 {
-	return shaders;
+	map<string, GLuint>::const_iterator it = shaders.find(name);
+	assert( it != shaders.end() );
+	return it->second;
 }
+
+bool (*(Shaders::shaderCreators[1])) (string&, GLuint&) =
+{
+	createWhiteShader,
+};

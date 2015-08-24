@@ -11,8 +11,8 @@ enum class EShaderAttribLocation
 	tex_coord_1,
 	tex_coord_2,
 	tex_coord_3,
-	texture_blending,
-	tex_normal,
+	tex_coord_blending,
+	tex_coord_normal,
 	
 };
 
