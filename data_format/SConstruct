@@ -1,0 +1,34 @@
+list_files = \
+[
+	"main.cpp",
+	"util.cpp",
+]
+
+libs = \
+[
+	"GL",
+	"GLEW",
+	"SDL2",
+	"SDL2_ttf",
+	"SOIL"
+]
+
+libpath = \
+[
+	"/usr/lib",
+	"/usr/local/lib"
+]
+
+env = Environment();
+debug = ARGUMENTS.get("debug", 0);
+if debug == 'true':
+	env.Append(CCFLAGS = '-g')
+
+env.Program \
+( \
+	"main",
+	list_files,
+	LIBS = libs,
+	LIBPATH = libpath,
+	CPPPATH = "."
+)
