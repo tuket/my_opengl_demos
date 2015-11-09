@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include "shaders/white_shader/white_shader.hpp"
+#include "shaders/black_shader/black_shader.hpp"
 
 //#define STOP_ON_COMPILE_ERROR
 
@@ -62,7 +63,8 @@ const GLuint Shaders::getShader(const string& name)const
 	return it->second;
 }
 
-bool (*(Shaders::shaderCreators[1])) (string&, GLuint&) =
+bool (*(Shaders::shaderCreators[2])) (string&, GLuint&) =
 {
 	createWhiteShader,
+	createBlackShader,
 };

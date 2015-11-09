@@ -23,7 +23,7 @@ public:
 private:
 	
 	
-	static bool (*(shaderCreators[1])) (std::string&, GLuint&);
+	static bool (*(shaderCreators[2])) (std::string&, GLuint&);
 	
 };
 

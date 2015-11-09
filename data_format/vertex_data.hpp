@@ -6,7 +6,7 @@
 struct Attrib
 {
 	unsigned num;	//< the number of floats that make this attr
-	unsigned name;	//< the name of the attr in the shaders (position in "names")
+	std::string name;	//< the name of the attr in the shaders
 };
 
 typedef unsigned AttribId;
@@ -19,7 +19,6 @@ struct VertexDataFormat
 class VertexDataFormatManager
 {
 	
-	std::string names;
 	std::vector<Attrib>  attribs;
 	
 	

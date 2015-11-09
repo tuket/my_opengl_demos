@@ -6,14 +6,8 @@
 #include <sstream>
 #include <iomanip>
 #include <glm/glm.hpp>
-#include "shaders.hpp"
-#include "shader_attrib_locations.hpp"
 
 using namespace std;
-
-const unsigned FRAMES_PER_SEC = 60;
-const unsigned TICKS_PER_FRAME = 1000 / FRAMES_PER_SEC;
-const unsigned SHADER_PERIOD = 2 * FRAMES_PER_SEC;
 
 const unsigned SCREEN_WIDTH = 800;
 const unsigned SCREEN_HEIGHT = 600;
@@ -62,58 +56,8 @@ int main()
 	
 	initGL();
 	
-	Shaders* shaders = Shaders::getSingleton();
-	shaders->init();
-	
-	const GLuint inds[] =
-	{
-		0, 1, 2
-	};
-	
-	const GLfloat verts[] =
-	{
-		0, 1, 0,
-		1, -1, 0,
-		-1, -1, 0
-	};
-	
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData
-	(
-		GL_ARRAY_BUFFER,
-		sizeof(verts),
-		verts,
-		GL_STATIC_DRAW
-	);
-	glEnableVertexAttribArray((GLuint)EShaderAttribLocation::position);
-	glVertexAttribPointer
-	(
-		(GLuint)EShaderAttribLocation::position,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		3*sizeof(float),
-		0
-	);
-	
-	GLuint EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData
-	(
-		GL_ELEMENT_ARRAY_BUFFER,
-		sizeof(inds),
-		inds,
-		GL_STATIC_DRAW
-	);
-	
-	int ticks0 = SDL_GetTicks();
-	int ticks1;
+	float time = 0;
 	SDL_Event event;
-	int frames = 0;
-	bool nextShad = false;
 	
 	bool end = false;
 	while( !end )
@@ -142,34 +86,13 @@ int main()
 		
 		glClear( GL_COLOR_BUFFER_BIT );
 		
-		frames ++;
-		cout << frames << endl;
-		if( frames >= SHADER_PERIOD )
-		{
-			nextShad = !nextShad;
-			frames = 0;
-		}
-		if(nextShad) glUseProgram( shaders->getShader("white_shader") );
-		else glUseProgram( shaders->getShader("black_shader") );
+		// Drawing!
 		
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glDrawElements
-		(
-			GL_TRIANGLES,
-			sizeof(inds)/sizeof(GLuint),
-			GL_UNSIGNED_INT,
-			0
-		);
 		
 		SDL_GL_SwapWindow(window);
 		
-		ticks1 = SDL_GetTicks();
-		if( ticks1-ticks0 < TICKS_PER_FRAME )
-		{
-			SDL_Delay( TICKS_PER_FRAME - (ticks1-ticks0) );
-		}
-		ticks0 = ticks1;
+		if(time>100*PI) time = 0;
+		time += PI/100.0f;
 		
 	}
 		

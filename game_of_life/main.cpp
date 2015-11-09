@@ -64,7 +64,6 @@ int main()
 	Grid grid2(GRID_WIDTH, GRID_HEIGHT);
 	
 	// enabling texture
-	glEnable(GL_TEXTURE_2D);
 	glActiveTexture(GL_TEXTURE0);
 	GLuint texture;
 	glGenTextures(1, &texture);
