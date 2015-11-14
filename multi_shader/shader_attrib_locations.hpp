@@ -1,5 +1,5 @@
 #ifndef SHADER_ATTRIB_LOCATIONS_HPP
-#define sHADER_ATTRIB_LOCATIONS_HPP
+#define SHADER_ATTRIB_LOCATIONS_HPP
 
 enum class EShaderAttribLocation
 {
