@@ -1,0 +1,3 @@
+[submodule "DEPS/SDL-mirror"]
+	path = DEPS/SDL-mirror
+	url = https://github.com/spurious/SDL-mirror.git
